@@ -6,7 +6,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Navbar from "./components/layout/Navbar.component";
 import Home from "./components/Home.component";
-import Lister from "./Lister";
+import Connexion from "./components/Connexion.component";
+import Register from "./components/Register.component";
 import Footer from "./components/layout/Footer.component";
 
 const theme = createMuiTheme({  
@@ -14,11 +15,12 @@ const theme = createMuiTheme({
     fontFamily: '"Source Sans Pro", sans-serif',
   },
   palette: {
+    type: 'dark',
     primary: {
       light: '#60FFA6',
       main: '#01D277',
       dark: '#009E49',
-      contrastText: '#FFF',
+      contrastText: '#000',
     },
     secondary: {
       light: '#30434C',
@@ -27,11 +29,11 @@ const theme = createMuiTheme({
       contrastText: '#FFF',
     },
     text: {
+      primary: '#FFF',
       secondary: '#B9B9B9'
     },
     background: {
-      default: '#171717',
-      paper: '#FFF'
+      default: '#171717'
     }
   },
 })
@@ -52,7 +54,8 @@ const App = () => {
       <Router>
         <Navbar />
           <Switch>
-            <Route path="/Lister" component={Lister} />
+            <Route path="/Register" component={Register} />
+            <Route path="/Connexion" component={Connexion} />
             <Route exactpath="/" component={Home} />
           </Switch>
         </Router>
