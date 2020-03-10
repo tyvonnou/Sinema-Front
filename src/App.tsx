@@ -1,7 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core';
-import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from '@material-ui/core/CssBaseline';
+// import { makeStyles } from "@material-ui/core/styles";
 
 import Navbar from "./components/layout/Navbar.component";
 import Home from "./components/Home.component";
@@ -12,35 +13,50 @@ const theme = createMuiTheme({
   typography: {
     fontFamily: '"Source Sans Pro", sans-serif',
   },
+  palette: {
+    primary: {
+      light: '#60FFA6',
+      main: '#01D277',
+      dark: '#009E49',
+      contrastText: '#FFF',
+    },
+    secondary: {
+      light: '#30434C',
+      main: '#081C24',
+      dark: '#000',
+      contrastText: '#FFF',
+    },
+    text: {
+      secondary: '#B9B9B9'
+    },
+    background: {
+      default: '#171717',
+      paper: '#FFF'
+    }
+  },
 })
 
-const useStyles = makeStyles(theme => ({
+/*const useStyles = makeStyles(theme => ({
   site: {
     display: "flex",
     flexDirection: "column",
     minHeight: 'calc(100vh - 111px)',
   },
-}));
+}));*/
 
 const App = () => {
-  const classes = useStyles();
 
   return (
     <MuiThemeProvider theme={theme}>
-    <div>
-      <div className={classes.site}>
-        <Router>
-          <div>
-            <Navbar />
-          </div>
-          <div>
+      <CssBaseline />
+      <Router>
+        <Navbar />
+          <Switch>
             <Route path="/Lister" component={Lister} />
-            <Route path="/" component={Home} />
-          </div>
+            <Route exactpath="/" component={Home} />
+          </Switch>
         </Router>
-      </div>
       <Footer />
-    </div>
     </MuiThemeProvider>
   );
 };

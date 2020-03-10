@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { useTheme } from '@material-ui/core/styles';
 import withWidth, { WithWidth } from '@material-ui/core/withWidth';
@@ -11,6 +11,9 @@ import Typography from '@material-ui/core/Typography';
 
 import MovieThumbnail from './MovieThumbnail.component';
 
+import axios from "axios";
+import { Thumbnail as IThumbnail } from "../../types/movie";
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -22,10 +25,12 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: theme.spacing(3),
     },
     sectionText: {
-      color: 'rgb(255, 255, 255)',
-      paddingBottom: '0.3em',
-      borderBottom: '2px solid #01d277',
+      color: theme.palette.common.white,
       fontWeight: 900,
+      paddingBottom: '0.3em',
+      borderBottomColor: theme.palette.primary.main,
+      borderBottomStyle: 'solid',
+      borderBottomWidth: 2,
       textTransform: 'uppercase',
     }
   })
@@ -37,6 +42,15 @@ function Home(props: WithWidth) {
   const isSmallScreen = useMediaQuery(theme.breakpoints.only('xs'));
   const gridProps = isSmallScreen ? "center" : "flex-start";
 
+  const [newestMovies, setNewestMovies] = useState<IThumbnail[]>([]);
+
+  useEffect(() => {
+    axios.post('/Lister').then(res => {
+        console.log(JSON.stringify(res.data))
+        setNewestMovies(res.data);
+    })
+  }, []);
+
   return (
     <div className={classes.root}>
       <Container fixed maxWidth="lg">
@@ -44,9 +58,11 @@ function Home(props: WithWidth) {
           <Box component="span" display="inline-block" className={classes.sectionText}>Derniers films</Box>
         </Typography>
         <Grid container spacing={3} justify={gridProps} >
-          <Grid item xs={10} sm={6} md={4} lg={3}>
-            <MovieThumbnail id={1} title="Shrek" date="16 Mai 2001" poster="/images/shrek.jpg" rate={5.00} />
-          </Grid>
+          { newestMovies.map((movie, i) => 
+            <Grid item xs={10} sm={6} md={4} lg={3}>
+              <MovieThumbnail id={movie.id} title={movie.title} date={movie.releaseDate} poster="/images/shrek.jpg" rate={5.00} />
+            </Grid>
+          )}
         </Grid>
       </Container>
     </div>

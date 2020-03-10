@@ -18,9 +18,6 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
-    appBar: {
-      backgroundColor: '#081c24',
-    },
     toolBar: {
       minHeight: 70,
       [theme.breakpoints.up("md")]: {
@@ -54,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 600
     },
     search: {
-      backgroundColor: '#fff',
+      backgroundColor: theme.palette.background.paper,
     },
   })
 );
@@ -64,7 +61,7 @@ export default function Navbar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" elevation={0} className={classes.appBar}>
+      <AppBar position="static" color="secondary" elevation={0}>
         <Container maxWidth="lg">
         <Toolbar className={classes.toolBar}>
           <SliderMenu />

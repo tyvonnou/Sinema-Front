@@ -1,6 +1,6 @@
 export interface Thumbnail {
     id: number,
     title: string,
-    date: string, 
+    releaseDate: string, 
     poster: string
 }
