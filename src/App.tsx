@@ -7,6 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Navbar from "./components/layout/Navbar.component";
 import Home from "./components/Home.component";
 import Connexion from "./components/Connexion.component";
+import Stepper from "./components/Stepper.component";
 import Register from "./components/Register.component";
 import Footer from "./components/layout/Footer.component";
 
@@ -54,6 +55,7 @@ const App = () => {
       <Router>
         <Navbar />
           <Switch>
+            <Route path="/Stepper" component={Stepper} />
             <Route path="/Register" component={Register} />
             <Route path="/Connexion" component={Connexion} />
             <Route exactpath="/" component={Home} />

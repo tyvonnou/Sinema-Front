@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontWeight: 600
     },
     search: {
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: theme.palette.common.white,
     },
   })
 );
