@@ -17,7 +17,6 @@ class Lister extends React.Component {
       console.log(JSON.stringify(res.data))
       this.setState({ livres: res.data })
     })
-
   }
 
   render() {

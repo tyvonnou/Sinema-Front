@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+/*import React from 'react';
 import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -21,24 +21,18 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const defaultData = {
-  title: "title",
-  description: "description",
-  releaseDate: "releaseDate"
-};
-
 function getSteps() {
   return ['Select master blaster campaign settings', 'Create an ad group', 'Create an ad'];
 }
 
-function getStepContent(stepIndex : number, props : any) {
+function getStepContent(stepIndex: number) {
   switch (stepIndex) {
     case 0:
-      return <Titre {...props} />;
+      return <Title {...formValues} activeStep={activeStep} isLastStep={isLastStep} handleBack={handleBack} handleNext={handleNext}/>;
     case 1:
-      return <Description {...props} />;
+      return 'What is an ad group anyways?';
     case 2:
-      return <Date {...props} />;
+      return 'This is the bit I really care about!';
     default:
       return 'Unknown stepIndex';
   }
@@ -48,9 +42,6 @@ export default function HorizontalLabelPositionBelowStepper() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
-  const [inputs, setInputs] = useState({title: '', description: ''});
-  const [dates, setDates] = useState({releaseDate: new Date()});
-  const props = {inputs, setInputs, dates, setDates};
 
   const handleNext = () => {
     setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -63,32 +54,6 @@ export default function HorizontalLabelPositionBelowStepper() {
   const handleReset = () => {
     setActiveStep(0);
   };
-
-  const handleInputChange = (event : React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setInputs(inputs => ({...inputs, [name]: value}));
-  }
-
-  const handleDateChange = (date : Date) => {
-    setDates(dates => ({...dates, releaseDate: date}));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log(inputs);
-    console.log(dates);
-    /*const test = format(new Date(dates.releaseDate), 'isoDate')
-    console.log("enregistrer " + JSON.stringify(inputs))
-    axios.post('/Enregistrer', {}, {
-      params: {
-        ...inputs,
-        ...dates
-      }
-    }).then(res => {
-      console.log(JSON.stringify(res.data))
-      this.setState({errLivre : res.data})
-    })*/
-  }
 
   return (
     <div className={classes.root}>
@@ -107,7 +72,7 @@ export default function HorizontalLabelPositionBelowStepper() {
           </div>
         ) : (
           <div>
-            {getStepContent(activeStep, props)}
+            <Typography className={classes.instructions}>{getStepContent(activeStep)}</Typography>
             <div>
               <Button
                 disabled={activeStep === 0}
@@ -125,4 +90,5 @@ export default function HorizontalLabelPositionBelowStepper() {
       </div>
     </div>
   );
-}
+}*/
+export {}

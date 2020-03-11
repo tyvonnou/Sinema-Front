@@ -24,7 +24,6 @@ export default function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const test = format(new Date(dates.releaseDate), 'isoDate')
-    console.log("enregistrer " + JSON.stringify(inputs))
     axios.post('/Enregistrer', {}, {
       params: {
         ...inputs,
@@ -32,7 +31,6 @@ export default function Register() {
       }
     }).then(res => {
       console.log(JSON.stringify(res.data))
-      this.setState({errLivre : res.data})
     })
   }
 
