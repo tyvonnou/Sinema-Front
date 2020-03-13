@@ -2,6 +2,7 @@ import 'date-fns';
 import React, { useState, useEffect } from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import axios, { post } from 'axios';
+
 import { format } from 'fecha';
 
 import DateFnsUtils from '@date-io/date-fns';
@@ -9,10 +10,18 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 
 export default function Register() {
   // const classes = useStyles();
+  const [logged, setLogged] = useState(false);
+
   const [inputs, setInputs] = useState({title: '', description: ''});
   const [dates, setDates] = useState({releaseDate: new Date().getTime()});
   const [poster, setPoster] = useState(null);
-  const [idFilm, setIdFilm] = useState(-1);
+
+  useEffect(() => {
+    axios.get('/logged').then(res => {
+      setLogged(res.data);
+      console.log(logged);
+    })
+  }, []);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -28,11 +37,11 @@ export default function Register() {
     setPoster(files[0]);
   };
 
-  const fileUpload = (file) => {
+  const fileUpload = (file, id) => {
     const url = '/image';
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('id', idFilm);
+    formData.append('id', id);
     const config = {
         headers: {
             'content-type': 'multipart/form-data'
@@ -45,11 +54,10 @@ export default function Register() {
     event.preventDefault();
     axios.post('/movie', {}, { params: { ...inputs, ...dates }}).then(res => {
       console.log(res.data);
-      setIdFilm(res.data.id);
-      console.log(idFilm);
-      /*fileUpload(poster).then((response) => {
+      console.log(res.data.id);
+      fileUpload(poster, res.data.id).then((response) => {
         console.log(response.data);
-      });*/
+      });
     });
   }
 

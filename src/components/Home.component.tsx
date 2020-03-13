@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
 import { useTheme } from '@material-ui/core/styles';
-import withWidth, { WithWidth } from '@material-ui/core/withWidth';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import Box from '@material-ui/core/Box';
@@ -59,7 +58,7 @@ export default function Home() {
         <Grid container spacing={3} justify={gridProps} >
           { newestMovies.map((movie, i) => 
             <Grid item xs={10} sm={6} md={4} lg={3} key={i}>
-              <MovieThumbnail id={movie.id} title={movie.title} date={movie.releaseDate} poster="/images/shrek.jpg" rate={5.00} />
+              <MovieThumbnail id={movie.id} title={movie.title} releaseDate={movie.releaseDate} poster="/images/shrek.jpg" rate={5.00} />
             </Grid>
           )}
         </Grid>

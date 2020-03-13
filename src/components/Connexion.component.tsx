@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from 'axios';
 
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
@@ -11,6 +12,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+import { Redirect } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -34,7 +36,26 @@ const useStyles = makeStyles(theme => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [inputs, setInputs] = useState({username: '', password: ''});
+  const [logged, setLogged] = useState(false);
 
+  const handleInputChange = (event : React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setInputs(inputs => ({...inputs, [name]: value}));
+  }
+
+  const handleSubmit = (event : React.MouseEvent<HTMLElement>) => {
+    event.preventDefault();
+    axios.post('/connection', {}, { params: { ...inputs }}).then(res => {
+      console.log(res.data);
+      setLogged(res.data);
+    });
+  }
+
+  if (logged) {
+    return (<Redirect to='/Profile'/>);
+  }
+  else {
   return (
     <Container component="main" maxWidth="sm">
       <div className={classes.paper}>
@@ -44,56 +65,56 @@ export default function SignIn() {
         <Typography component="h1" variant="h5">
           Connexion
         </Typography>
-        <form className={classes.form} noValidate>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Adresse mail"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="password"
-            label="Mot de passe"
-            name="password"
-            type="password"
-            autoComplete="current-password"
-          />
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Se souvenir de moi"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Se connecter
-          </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href="#" variant="body2">
-                Mot de passe oublié ?
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
-                {"Pas encore de compte ? S'inscrire"}
-              </Link>
-            </Grid>
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="username"
+          label="Nom d'utilisateur"
+          name="username"
+          autoFocus
+          onChange={handleInputChange}
+        />
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          id="password"
+          label="Mot de passe"
+          name="password"
+          type="password"
+          onChange={handleInputChange}
+        />
+        <FormControlLabel
+          control={<Checkbox value="remember" color="primary" />}
+          label="Se souvenir de moi"
+        />
+        <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+          onClick={handleSubmit}
+        >
+          Se connecter
+        </Button>
+        <Grid container>
+          <Grid item xs>
+            <Link href="#" variant="body2">
+              Mot de passe oublié ?
+            </Link>
           </Grid>
-        </form>
+          <Grid item>
+            <Link href="#" variant="body2">
+              {"Pas encore de compte ? S'inscrire"}
+            </Link>
+          </Grid>
+        </Grid>
       </div>
     </Container>
   );
+  }
 }

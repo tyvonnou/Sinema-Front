@@ -11,15 +11,7 @@ import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 import StarIcon from '@material-ui/icons/Star';
 
-
-
-interface Movie {
-  id: number,
-  title: string,
-  date: string, 
-  poster: string,
-  rate: number
-}
+import { Thumbnail as IThumbnail } from "../../types/movie";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -70,9 +62,9 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function MovieThumbnail(props : Movie) {
+export default function MovieThumbnail(props : IThumbnail) {
   const classes = useStyles();
-  const {id, title, date, poster, rate } = props;
+  const {id, title, releaseDate, poster, rate } = props;
 
   return (
     <div>
@@ -87,7 +79,7 @@ export default function MovieThumbnail(props : Movie) {
               {title}
             </Typography>
             <Typography variant="caption" component="p" className={classes.subtitle}>
-              {date}
+              {new Date(releaseDate).toLocaleDateString()}
             </Typography>
           </CardContent>
         </CardActionArea>
