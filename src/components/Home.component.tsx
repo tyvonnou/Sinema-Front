@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-function Home(props: WithWidth) {
+export default function Home() {
   const classes = useStyles();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.only('xs'));
@@ -45,9 +45,8 @@ function Home(props: WithWidth) {
   const [newestMovies, setNewestMovies] = useState<IThumbnail[]>([]);
 
   useEffect(() => {
-    axios.post('/Lister').then(res => {
-        console.log(JSON.stringify(res.data))
-        setNewestMovies(res.data);
+    axios.get('/movie').then(res => {
+      setNewestMovies(res.data);
     })
   }, []);
 
@@ -59,7 +58,7 @@ function Home(props: WithWidth) {
         </Typography>
         <Grid container spacing={3} justify={gridProps} >
           { newestMovies.map((movie, i) => 
-            <Grid item xs={10} sm={6} md={4} lg={3}>
+            <Grid item xs={10} sm={6} md={4} lg={3} key={i}>
               <MovieThumbnail id={movie.id} title={movie.title} date={movie.releaseDate} poster="/images/shrek.jpg" rate={5.00} />
             </Grid>
           )}
@@ -68,5 +67,3 @@ function Home(props: WithWidth) {
     </div>
   );
 }
-
-export default withWidth()(Home);

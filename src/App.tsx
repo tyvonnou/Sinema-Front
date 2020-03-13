@@ -7,7 +7,6 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Navbar from "./components/layout/Navbar.component";
 import Home from "./components/Home.component";
 import Connexion from "./components/Connexion.component";
-// import Stepper from "./components/Stepper.component";
 import Register from "./components/Register.component";
 import Footer from "./components/layout/Footer.component";
 import Profile from "./components/Profile.component";

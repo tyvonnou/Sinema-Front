@@ -10,8 +10,9 @@ import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/picker
 export default function Register() {
   // const classes = useStyles();
   const [inputs, setInputs] = useState({title: '', description: ''});
-  const [dates, setDates] = useState({releaseDate: new Date()});
+  const [dates, setDates] = useState({releaseDate: new Date().getTime()});
   const [poster, setPoster] = useState(null);
+  const [idFilm, setIdFilm] = useState(-1);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -19,7 +20,7 @@ export default function Register() {
   }
 
   const handleDateChange = (date) => {
-    setDates(dates => ({...dates, releaseDate: date}));
+    setDates(dates => ({...dates, releaseDate: date.getTime()}));
   };
 
   const handlePosterChange = (event) => {
@@ -28,9 +29,10 @@ export default function Register() {
   };
 
   const fileUpload = (file) => {
-    const url = '/Upload';
+    const url = '/image';
     const formData = new FormData();
-    formData.append('file', file)
+    formData.append('file', file);
+    formData.append('id', idFilm);
     const config = {
         headers: {
             'content-type': 'multipart/form-data'
@@ -39,33 +41,16 @@ export default function Register() {
     return post(url, formData, config)
   }
 
-  const onFormSubmit = (event) => {
-    event.preventDefault() // Stop form submit
-    fileUpload(poster).then((response) => {
-      console.log(response.data);
-    })
-  }
-
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    const test = format(new Date(dates.releaseDate), 'isoDate')
-    console.log("enregistrer " + JSON.stringify(inputs))
-    axios.post('/Enregistrer', {}, {
-      params: {
-        ...inputs,
-        ...dates
-      }
-    }).then(res => {
-      const filmID = (res.data.FilmID);
-      axios.post('/Upload', {}, {
-        params: {
-          poster
-        }
-      })
-      // console.log(JSON.stringify(res.data))
-    })
-    // console.log(poster);
+    axios.post('/movie', {}, { params: { ...inputs, ...dates }}).then(res => {
+      console.log(res.data);
+      setIdFilm(res.data.id);
+      console.log(idFilm);
+      /*fileUpload(poster).then((response) => {
+        console.log(response.data);
+      });*/
+    });
   }
 
   return (
@@ -79,14 +64,12 @@ export default function Register() {
         <KeyboardDatePicker disableToolbar variant="inline" format="dd/MM/yyyy" name="releaseDate" value={dates.releaseDate} onChange={handleDateChange}/>
       </MuiPickersUtilsProvider>
       <br />
-      <form onSubmit={onFormSubmit}>
+      <form onSubmit={handleSubmit}>
          Fichiers sélectionnés : 
          <input type="file" accept="image/*" onChange={handlePosterChange} />
          <br/>
-         <input type="submit" value="Upload" /> 
+         <input type="submit" value="Enregistrer" /> 
      </form>
-      <br/>  
-      <button className="btn btn-default" onClick={handleSubmit}>Enregistrer</button>
     </div>
   );
 }
